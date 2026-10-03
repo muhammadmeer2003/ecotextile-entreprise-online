@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EcoTextile | User & Security Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen p-6 md:p-10">
+<div class="max-w-6xl mx-auto space-y-6">
+<div class="flex flex-wrap items-center justify-between gap-3">
+<div><p class="text-emerald-400 text-xs font-black tracking-widest uppercase">Security Console</p><h1 class="text-3xl font-black mt-1">{{ company }} — User Management</h1><p class="text-slate-400 mt-1">Role-based access and audit activity.</p></div>
+<a href="{{ url_for('routes.dashboard') }}" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-bold">← Dashboard</a>
+</div>
+{% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="space-y-2">{% for category,message in messages %}<div class="p-3 rounded-xl border border-slate-700 bg-slate-900">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+<div class="grid lg:grid-cols-3 gap-5">
+<div class="lg:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl p-5">
+<h2 class="font-black text-lg">Create User</h2>
+<form method="post" class="space-y-3 mt-4">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+<input name="company_name" required placeholder="Company / Mill name" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3">
+<input name="email" type="email" required placeholder="Work email" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3">
+<input name="password" type="password" minlength="8" required placeholder="Temporary private key" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3">
+<select name="role" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3"><option>STAFF</option><option>MANAGER</option><option>ADMIN</option></select>
+<button name="action" value="create_user" class="w-full bg-emerald-400 text-emerald-950 font-black rounded-xl p-3">Create Account</button>
+</form>
+<div class="text-xs text-slate-500 mt-4">New accounts are created with a hashed password; the user must use the email and private key to sign in.</div>
+</div>
+<div class="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl p-5 overflow-x-auto">
+<h2 class="font-black text-lg mb-4">Company Users</h2>
+<table class="w-full text-sm"><thead><tr class="text-left text-slate-500 border-b border-slate-800"><th class="p-2">Company</th><th class="p-2">Email</th><th class="p-2">Role</th><th class="p-2">Change</th></tr></thead><tbody>
+{% for u in users %}<tr class="border-b border-slate-800/70"><td class="p-2">{{ u.company_name }}</td><td class="p-2">{{ u.email }}</td><td class="p-2 font-black">{{ u.role }}</td><td class="p-2"><form method="post" class="flex gap-2"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="user_id" value="{{ u.id }}"><select name="role" class="bg-slate-950 border border-slate-700 rounded-lg p-2"><option {% if u.role=='STAFF' %}selected{% endif %}>STAFF</option><option {% if u.role=='MANAGER' %}selected{% endif %}>MANAGER</option><option {% if u.role=='ADMIN' %}selected{% endif %}>ADMIN</option></select><button name="action" value="change_role" class="px-3 py-2 rounded-lg bg-slate-800 font-bold">Save</button></form></td></tr>{% endfor %}
+</tbody></table>
+</div></div>
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 overflow-x-auto"><h2 class="font-black text-lg mb-4">Recent Audit Trail</h2><table class="w-full text-sm"><thead><tr class="text-left text-slate-500 border-b border-slate-800"><th class="p-2">Time</th><th class="p-2">User</th><th class="p-2">Action</th><th class="p-2">Entity</th><th class="p-2">Details</th><th class="p-2">IP</th></tr></thead><tbody>{% for a in audits %}<tr class="border-b border-slate-800/70"><td class="p-2 whitespace-nowrap">{{ a.created_at }}</td><td class="p-2">{{ a.email or 'Deleted user' }}</td><td class="p-2 font-bold">{{ a.action }}</td><td class="p-2">{{ a.entity_type or '' }} {{ a.entity_id or '' }}</td><td class="p-2">{{ a.details or '' }}</td><td class="p-2 text-slate-500">{{ a.ip_address or '' }}</td></tr>{% else %}<tr><td colspan="6" class="p-5 text-slate-500">No audit records yet.</td></tr>{% endfor %}</tbody></table></div>
+</div></body></html>

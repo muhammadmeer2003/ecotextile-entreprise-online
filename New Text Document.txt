@@ -1,0 +1,1 @@
+cd "EcoTextile_Enterprises_FINAL_Production - Copy" && pip install -r requirements.txt && python app.py

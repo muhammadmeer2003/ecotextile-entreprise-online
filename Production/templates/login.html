@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>EcoTextile Enterprises | Secure Access</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body{background:#07120f}.grid-bg{background-image:linear-gradient(rgba(16,185,129,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(16,185,129,.08) 1px,transparent 1px);background-size:34px 34px}.glass{background:rgba(255,255,255,.07);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.12)}
+  </style>
+</head>
+<body class="min-h-screen text-slate-100 grid-bg">
+<div class="min-h-screen grid lg:grid-cols-2">
+  <section class="relative overflow-hidden bg-emerald-950/90 p-8 md:p-14 flex flex-col justify-between">
+    <div class="absolute -top-24 -left-24 w-72 h-72 rounded-full bg-emerald-400/15 blur-3xl"></div>
+    <div class="relative">
+      <div class="flex items-center gap-3"><div class="w-11 h-11 rounded-2xl bg-emerald-400 text-emerald-950 font-black grid place-items-center">ET</div><div><p class="font-black tracking-wide">ECOTEXTILE</p><p class="text-xs text-emerald-200/70">ENTERPRISES</p></div></div>
+      <div class="mt-24 max-w-xl"><p class="text-emerald-300 text-sm font-bold tracking-[.3em] uppercase">Partner Mills Operating System</p><h1 class="mt-4 text-5xl md:text-6xl font-black leading-tight">Run textile execution as one connected node.</h1><p class="mt-6 text-emerald-100/70 text-lg">Production, warehouse, quality, sustainability, CBAM telemetry and executive control in one tenant-aware workspace.</p></div>
+    </div>
+    <div class="relative glass rounded-3xl p-6 max-w-xl"><p class="text-emerald-200 text-xs font-bold tracking-widest uppercase">Director's note</p><p class="mt-3 text-xl leading-relaxed">“Our commitment is to drive efficiency, transparency and responsible growth through connected textile operations.”</p><p class="mt-4 text-sm text-emerald-200/70">— Muhammad MEER, Lead Architect & Director</p></div>
+    <div class="relative text-xs text-emerald-200/50 flex gap-6"><span>🔒 TLS-ready session controls</span><span>✓ ISO-minded architecture</span><span>✓ Tenant isolation</span></div>
+  </section>
+  <section class="bg-slate-950 p-6 md:p-12 flex items-center justify-center">
+    <div class="w-full max-w-md">
+      <div class="mb-8"><p class="text-emerald-400 text-sm font-bold tracking-widest uppercase">Secure corporate access</p><h2 class="text-3xl font-black mt-2">Sign in to your node</h2><p class="text-slate-400 mt-2">Use your registered work email and private key.</p></div>
+      {% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="space-y-2 mb-5">{% for category,message in messages %}<div class="rounded-xl px-4 py-3 text-sm {{ 'bg-red-500/10 text-red-300 border border-red-500/20' if category=='error' else 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+      <form method="post" action="{{ url_for('routes.login') }}" class="space-y-5">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <label class="block"><span class="text-sm text-slate-300">Work email</span><input name="email" type="email" autocomplete="username" required class="mt-2 w-full rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3.5 outline-none focus:border-emerald-400" placeholder="operations@company.com"></label>
+        <label class="block"><span class="text-sm text-slate-300">Private key</span><div class="relative mt-2"><input id="password" name="password" type="password" autocomplete="current-password" required class="w-full rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3.5 pr-16 outline-none focus:border-emerald-400" placeholder="••••••••"><button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">SHOW</button></div><div id="capsWarning" class="hidden mt-2 text-xs text-amber-300">Caps Lock appears to be enabled.</div></label>
+        <button id="loginButton" class="w-full rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-black py-3.5 transition flex items-center justify-center gap-2"><span id="buttonText">Enter Enterprise Hub</span><span id="spinner" class="hidden w-4 h-4 border-2 border-emerald-950/30 border-t-emerald-950 rounded-full animate-spin"></span></button>
+      </form>
+      <div class="mt-4 grid grid-cols-2 gap-2">
+        <a href="{{ url_for('routes.forgot_password') }}" class="text-center rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-emerald-400 hover:border-emerald-400/40 font-bold">Forgot Password?</a>
+        <a href="{{ url_for('routes.user_manual') }}" class="text-center rounded-xl border border-slate-800 bg-slate-900/60 px-3 py-2 text-sm text-slate-300 hover:border-emerald-400/40 hover:text-white font-bold">📘 User Manual</a>
+      </div>
+      <p class="text-center text-sm text-slate-500 mt-6">New tenant? <a href="{{ url_for('routes.register') }}" class="text-emerald-400 hover:text-emerald-300 font-bold">Register company node</a></p>
+    </div>
+  </section>
+</div>
+<script>
+const password=document.getElementById('password'), toggle=document.getElementById('togglePassword'), caps=document.getElementById('capsWarning');
+toggle.addEventListener('click',()=>{password.type=password.type==='password'?'text':'password';toggle.textContent=password.type==='password'?'SHOW':'HIDE'});
+password.addEventListener('keyup',e=>{caps.classList.toggle('hidden',!e.getModifierState('CapsLock'))});
+document.querySelector('form').addEventListener('submit',()=>{document.getElementById('loginButton').disabled=true;document.getElementById('spinner').classList.remove('hidden');document.getElementById('buttonText').textContent='Authenticating…'});
+</script>
+</body>
+</html>
