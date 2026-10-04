@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>EcoTextile Enterprises | Control Hub</title><script src="https://cdn.tailwindcss.com"></script>
+<style>
+:root{color-scheme:dark}html{scroll-behavior:smooth}body{background:#071019}.shell{min-height:100vh}.sidebar{background:#08121c;border-right:1px solid #172331}.panel{background:linear-gradient(145deg,rgba(17,30,43,.78),rgba(7,16,25,.68));border:1px solid rgba(148,163,184,.14);box-shadow:0 18px 45px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.025);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}.panel:hover{border-color:rgba(52,211,153,.22);box-shadow:0 20px 50px rgba(0,0,0,.22),0 0 0 1px rgba(52,211,153,.03) inset}.input{background:#07111a;border:1px solid #203142}.input:focus{border-color:#34d399;outline:none;box-shadow:0 0 0 3px rgba(52,211,153,.08)}.scrollbar::-webkit-scrollbar{width:7px}.scrollbar::-webkit-scrollbar-thumb{background:#263747;border-radius:999px}.marquee-wrap{position:fixed;top:0;left:0;right:0;z-index:100;height:36px;background:#10b981;color:#03251a;display:flex;align-items:center;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.2)}.marquee-track{white-space:nowrap;display:inline-block;padding-left:100%;animation:marquee 24s linear infinite;font-weight:900;letter-spacing:.02em}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-100%)}}.workspace{padding-top:36px}.placeholder{background:linear-gradient(135deg,#0f3b33,#16283b);border:1px solid rgba(52,211,153,.25)}.scan-line{animation:scan 1.9s ease-in-out infinite;box-shadow:0 0 10px rgba(52,211,153,.7)}@keyframes scan{0%{transform:translateY(-75px);opacity:0}15%{opacity:1}50%{opacity:1}85%{opacity:1}100%{transform:translateY(75px);opacity:0}}.scanner-frame{position:absolute;inset:14px;border:1px solid rgba(52,211,153,.16);pointer-events:none}.scanner-frame:before,.scanner-frame:after{content:"";position:absolute;width:30px;height:30px;border-color:rgba(52,211,153,.9);border-style:solid}.scanner-frame:before{left:-1px;top:-1px;border-width:3px 0 0 3px}.scanner-frame:after{right:-1px;bottom:-1px;border-width:0 3px 3px 0}.scanner-corner-tr,.scanner-corner-bl{position:absolute;width:30px;height:30px;border-color:rgba(52,211,153,.9);border-style:solid}.scanner-corner-tr{right:-1px;top:-1px;border-width:3px 3px 0 0}.scanner-corner-bl{left:-1px;bottom:-1px;border-width:0 0 3px 3px}.stat-card{position:relative;overflow:hidden}.stat-card:after{content:"";position:absolute;inset:auto -20% -55% -20%;height:90px;background:radial-gradient(ellipse,rgba(52,211,153,.10),transparent 65%);pointer-events:none}.sparkline{width:100%;height:34px;opacity:.42;margin-top:10px}.sparkline path{fill:none;stroke:#6ee7b7;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}.header-actions{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:6px}.header-action{white-space:nowrap}.camera-capture{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none}
+</style></head>
+<body class="text-slate-100">
+<div class="marquee-wrap"><div class="marquee-track">🌿 Welcome to the EcoTextile Partner Mills | Active Node Tenant Instance: {{ company }} &nbsp;&nbsp;&nbsp; • &nbsp;&nbsp;&nbsp; 🌿 Welcome to the EcoTextile Partner Mills | Active Node Tenant Instance: {{ company }}</div></div>
+<div class="shell workspace lg:flex">
+<div id="mobileOverlay" class="hidden fixed inset-0 bg-black/60 z-40 lg:hidden"></div>
+<aside id="mobileSidebar" class="sidebar hidden lg:block lg:w-72 lg:fixed lg:top-9 lg:bottom-0 lg:left-0 overflow-y-auto scrollbar z-50"><div class="p-5 border-b border-slate-800"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-2xl bg-emerald-400 text-emerald-950 font-black grid place-items-center overflow-hidden">{% if company_logo %}<img src="{{ company_logo }}" class="w-full h-full object-cover" alt="Company logo">{% else %}ET{% endif %}</div><div class="min-w-0"><p class="font-black truncate">EcoTextile</p><p class="text-[10px] text-emerald-400 tracking-[.2em]">ENTERPRISES</p></div></div><p class="mt-5 text-xs text-slate-500 truncate">🏢 {{ company }}</p></div>
+<nav class="p-3 space-y-1">{% for item in modules %}<a href="{{ url_for('routes.dashboard', module=item.id) }}" class="block rounded-xl px-3 py-2.5 transition {{ 'bg-emerald-400/10 text-emerald-300 border border-emerald-400/20' if active_module==item.id else 'text-slate-400 hover:bg-slate-800/70 hover:text-white' }}"><div class="flex items-center gap-3"><span class="w-7 h-7 rounded-lg grid place-items-center text-[10px] font-black {{ 'bg-emerald-400 text-emerald-950' if active_module==item.id else 'bg-slate-800 text-slate-500' }}">{{ '%02d'|format(item.id) }}</span><span class="text-xs font-bold">{{ item.name }}</span></div></a>{% endfor %}</nav>
+<div class="p-4 border-t border-slate-800 text-[11px] text-slate-500">Lead Architect & Director: <span class="text-slate-300">Muhammad MEER</span></div></aside>
+<main class="lg:ml-72 w-full"><header class="sticky top-9 z-30 bg-[#071019]/95 backdrop-blur-xl border-b border-slate-800"><div class="px-4 md:px-8 py-3 flex flex-wrap gap-3 items-center justify-between"><div class="flex items-center gap-3 min-w-0"><button id="mobileMenuBtn" class="lg:hidden px-3 py-2 rounded-xl border border-slate-700 text-xs font-bold">☰</button><div class="min-w-0"><p class="text-[10px] text-emerald-400 font-black tracking-[.22em] uppercase">Active subsystem</p><h1 class="text-lg md:text-2xl font-black truncate">{{ active_module_data.name }}</h1><p class="text-[10px] text-slate-500 mt-0.5">{{ active_module_data.code }} · Operational control</p></div></div><div class="header-actions text-[11px]">{% if role == 'ADMIN' %}<a href="{{ url_for('routes.admin_users') }}" class="header-action px-2.5 py-1.5 rounded-lg border border-slate-700 text-slate-300">🔐 Users & Audit</a>{% endif %}
+<a href="{{ url_for('routes.user_manual') }}" class="header-action px-2.5 py-1.5 rounded-lg border border-slate-700 text-slate-300">📘 Manual</a><a href="{{ url_for('reports.center') }}" class="header-action px-2.5 py-1.5 rounded-lg bg-emerald-400 text-emerald-950 font-black">📊 Reports</a><button id="themeBtn" class="header-action px-2.5 py-1.5 rounded-lg border border-slate-700 text-slate-300">◐ Theme</button><form method="post" action="{{ url_for('routes.logout') }}"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="header-action px-2.5 py-1.5 rounded-lg bg-slate-800 font-bold">Sign out</button></form></div></div></header>
+<div class="p-5 md:p-8 space-y-6">
+{% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="space-y-2">{% for category,message in messages %}<div class="rounded-2xl px-4 py-3 text-sm {{ 'bg-red-500/10 border border-red-500/20 text-red-300' if category=='error' else 'bg-emerald-500/10 border border-emerald-500/20 text-emerald-300' }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
+<section class="grid xl:grid-cols-4 gap-4"><div class="panel stat-card rounded-3xl p-5"><p class="text-xs text-slate-500">Batch nodes</p><p class="text-3xl font-black mt-2">{{ order_count }}</p><p class="text-xs text-emerald-400 mt-2">{{ active_count }} active</p><svg class="sparkline" viewBox="0 0 160 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 27 C18 25, 22 15, 38 20 S60 29, 76 16 S99 11, 112 18 S137 27, 160 7"/></svg></div><div class="panel stat-card rounded-3xl p-5"><p class="text-xs text-slate-500">Production volume</p><p class="text-3xl font-black mt-2">{{ '%.1f'|format(total_kg) }} kg</p><p class="text-xs text-slate-500 mt-2">Tenant ledger total</p><svg class="sparkline" viewBox="0 0 160 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 25 C16 27, 25 21, 39 22 S58 10, 73 15 S95 26, 110 17 S136 12, 160 5"/></svg></div><div class="panel stat-card rounded-3xl p-5"><p class="text-xs text-slate-500">Node identity</p><p class="font-black mt-2 truncate">{{ company }}</p><p class="text-xs text-slate-500 mt-2">Session authenticated</p><svg class="sparkline" viewBox="0 0 160 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 23 C20 23, 24 20, 40 21 S63 20, 80 19 S104 21, 120 14 S143 15, 160 10"/></svg></div><div class="panel stat-card rounded-3xl p-5"><p class="text-xs text-slate-500">Current module</p><p class="text-2xl font-black mt-2">M{{ '%02d'|format(active_module) }}</p><p class="text-xs text-slate-500 mt-2">{{ active_module_data.code }}</p><svg class="sparkline" viewBox="0 0 160 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 C17 24, 28 26, 42 19 S63 23, 78 14 S101 17, 117 12 S141 17, 160 6"/></svg></div></section>
+<section class="panel rounded-3xl p-5 md:p-7"><div class="flex flex-wrap items-start justify-between gap-4"><div><p class="text-xs text-emerald-400 font-black tracking-widest uppercase">Mission / Vision</p><h2 class="text-2xl font-black mt-2">{{ active_module_data.description }}</h2></div><div class="rounded-2xl bg-emerald-400/10 border border-emerald-400/20 px-4 py-3 text-xs text-emerald-300">Execution engine online</div></div></section>
+
+{% if active_module == 1 %}
+<section class="grid xl:grid-cols-[1fr_.9fr] gap-6"><div class="panel rounded-3xl p-6"><div class="mb-5"><h2 class="font-black text-lg">Create Production Batch</h2><p class="text-xs text-slate-500 mt-1">Creates a unique SHA-256 DPP token and optional fabric evidence image.</p></div><form method="post" enctype="multipart/form-data" class="grid md:grid-cols-2 gap-4"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="create_order"><label><span class="text-xs text-slate-400">Buyer</span><input name="buyer_name" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="Buyer / brand"></label><label><span class="text-xs text-slate-400">Fabric type</span><input name="fabric_type" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="Organic cotton jersey"></label><label><span class="text-xs text-slate-400">Quantity kg</span><input name="quantity_kg" type="number" min="0.01" step="0.01" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="1000"></label><label><span class="text-xs text-slate-400">Total BOM cost</span><input name="total_bom_cost" type="number" min="0" step="0.01" class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="0.00"></label><label><span class="text-xs text-slate-400">QC grade</span><select name="qc_grade" class="input w-full rounded-xl px-3 py-3 mt-2"><option>PENDING</option><option>A</option><option>B</option><option>C</option><option>REJECTED</option></select></label><label><span class="text-xs text-slate-400">Fabric batch image</span><input name="fabric_image" type="file" accept=".jpg,.jpeg,.png,.webp" class="input w-full rounded-xl px-3 py-2 mt-2 text-xs"></label><button class="md:col-span-2 rounded-xl bg-emerald-400 text-emerald-950 font-black py-3">Create Batch Node</button></form></div>
+<div class="panel rounded-3xl p-6"><p class="text-xs text-emerald-400 font-black tracking-widest uppercase">Product Scanner</p><h2 class="font-black text-lg mt-2">Scan a batch label</h2><p class="text-xs text-slate-500 mt-1">Use camera barcode detection where supported, or enter a Batch ID / DPP hash.</p><div class="mt-5 rounded-2xl bg-black/40 border border-slate-800 min-h-44 relative overflow-hidden grid place-items-center">
+  <video id="cameraPreview" class="hidden w-full h-52 object-cover" autoplay playsinline muted></video>
+  <div class="scanner-frame"><span class="scanner-corner-tr"></span><span class="scanner-corner-bl"></span></div>
+  <div id="scannerPlaceholder" class="text-center px-5"><div class="text-5xl opacity-20">▦</div><p class="text-xs text-slate-500 mt-2">Scan a QR/barcode product label</p></div>
+  <div id="scanLine" class="hidden absolute left-5 right-5 h-px bg-emerald-400 scan-line"></div>
+</div>
+<div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2">
+  <label for="cameraCaptureInput" id="photoLabel" class="rounded-xl bg-sky-500 text-white px-3 py-3 font-black text-xs text-center cursor-pointer">📷 Take Photo of Code</label>
+  <input id="cameraCaptureInput" class="camera-capture" type="file" accept="image/*" capture="environment">
+  <button id="cameraBtn" type="button" class="rounded-xl bg-emerald-400 text-emerald-950 px-3 py-3 font-black text-xs">📱 Scan with Mobile Camera</button>
+  <button id="scannerFocusBtn" type="button" class="rounded-xl bg-slate-700 px-3 py-3 font-bold text-xs">⌨️ Use Scanner</button>
+  <button id="stopCameraBtn" type="button" class="rounded-xl border border-slate-700 px-3 py-3 font-bold text-xs hidden">Stop Camera</button>
+</div>
+<div class="mt-3 flex gap-2"><input id="scanInput" autocomplete="off" class="input flex-1 rounded-xl px-3 py-3 text-sm" placeholder="Batch ID / DPP token / scanner input"><button id="scanBtn" class="rounded-xl bg-slate-700 px-4 font-bold text-sm">Lookup</button></div>
+<p id="cameraStatus" class="mt-2 text-[11px] text-slate-500">Tip: a USB/Bluetooth barcode scanner can type into this field and press Enter automatically.</p>
+<div id="scanResult" class="mt-4 text-sm text-slate-400">No scan loaded.</div></div></section>
+{% elif active_module == 10 %}
+<section class="panel rounded-3xl p-6"><h2 class="font-black text-lg">Warehouse Rack / Row / Bin Mapping</h2><form method="post" class="grid md:grid-cols-4 gap-4 mt-5"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="warehouse_update"><label><span class="text-xs text-slate-400">Batch</span><select name="order_id" required class="input w-full rounded-xl px-3 py-3 mt-2">{% for order in orders %}<option value="{{ order.id }}">#{{ order.id }} · {{ order.buyer_name }}</option>{% endfor %}</select></label><label><span class="text-xs text-slate-400">Rack</span><input name="warehouse_rack" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="R-04"></label><label><span class="text-xs text-slate-400">Row</span><input name="warehouse_row" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="ROW-07"></label><label><span class="text-xs text-slate-400">Bin</span><input name="warehouse_bin" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="BIN-12"></label><button class="md:col-span-4 rounded-xl bg-emerald-400 text-emerald-950 font-black py-3">Commit Warehouse Coordinates</button></form></section>
+{% elif active_module == 13 %}
+<section class="grid xl:grid-cols-[1fr_.8fr] gap-6"><div class="panel rounded-3xl p-6"><h2 class="font-black text-lg">CBAM Carbon Telemetry</h2><p class="text-xs text-slate-500 mt-1">Configured formula: ((electricity × 0.45) + (fuel × 2.68)) × 0.085</p><form method="post" class="grid md:grid-cols-3 gap-4 mt-5"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="cbam_calculate"><label class="md:col-span-3"><span class="text-xs text-slate-400">Batch</span><select name="order_id" required class="input w-full rounded-xl px-3 py-3 mt-2">{% for order in orders %}<option value="{{ order.id }}">#{{ order.id }} · {{ order.buyer_name }} · {{ order.fabric_type }}</option>{% endfor %}</select></label><label><span class="text-xs text-slate-400">Electricity input</span><input name="electricity" type="number" min="0" step="0.0001" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="0"></label><label><span class="text-xs text-slate-400">Fuel input</span><input name="fuel" type="number" min="0" step="0.0001" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="0"></label><button class="rounded-xl bg-emerald-400 text-emerald-950 font-black py-3 self-end">Calculate & Log</button></form></div><div class="panel rounded-3xl p-6"><p class="text-xs text-slate-500">Latest CBAM records</p><div class="mt-4 space-y-2 max-h-64 overflow-auto scrollbar">{% for row in cbam_logs %}<div class="rounded-xl bg-slate-900/70 p-3"><div class="flex justify-between text-xs"><span>#{{ row.order_id }} · {{ row.buyer_name }}</span><span class="text-emerald-400">${{ '%.4f'|format(row.target_tax_usd) }}</span></div><p class="text-[11px] text-slate-500 mt-1">Emissions metric: {{ '%.4f'|format(row.emissions_metric) }}</p></div>{% else %}<p class="text-sm text-slate-600">No CBAM telemetry recorded yet.</p>{% endfor %}</div></div></section>
+{% elif active_module == 7 %}
+<section class="panel rounded-3xl p-6"><h2 class="font-black text-lg">Quality & Batch Status Control</h2><form method="post" class="grid md:grid-cols-4 gap-4 mt-5"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="qc_update"><label><span class="text-xs text-slate-400">Batch</span><select name="order_id" class="input w-full rounded-xl px-3 py-3 mt-2">{% for order in orders %}<option value="{{ order.id }}">#{{ order.id }} · {{ order.buyer_name }}</option>{% endfor %}</select></label><label><span class="text-xs text-slate-400">QC grade</span><select name="qc_grade" class="input w-full rounded-xl px-3 py-3 mt-2"><option>A</option><option>B</option><option>C</option><option>PENDING</option><option>REJECTED</option></select></label><label><span class="text-xs text-slate-400">Order status</span><select name="order_status" class="input w-full rounded-xl px-3 py-3 mt-2"><option>ACTIVE</option><option>IN PRODUCTION</option><option>READY</option><option>HOLD</option><option>CANCELLED</option></select></label><button class="rounded-xl bg-emerald-400 text-emerald-950 font-black py-3 self-end">Commit QC State</button></form></section>
+{% else %}
+<section class="panel rounded-3xl p-6"><div class="flex justify-between items-center gap-3"><div><h2 class="font-black text-lg">{{ active_module_data.name }} Operational Log</h2><p class="text-xs text-slate-500 mt-1">This module writes a timestamped operational event into the tenant telemetry ledger.</p></div><span class="text-xs font-black text-emerald-400">{{ active_module_data.code }}</span></div><form method="post" class="grid md:grid-cols-3 gap-4 mt-6"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><input type="hidden" name="action" value="module_event"><input type="hidden" name="module_id" value="{{ active_module }}"><label><span class="text-xs text-slate-400">Reference</span><input name="reference" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="PO-2026-001"></label><label><span class="text-xs text-slate-400">Telemetry / value</span><input name="value" required class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="Confirmed / 95% / 240 units"></label><label><span class="text-xs text-slate-400">Notes</span><input name="notes" class="input w-full rounded-xl px-3 py-3 mt-2" placeholder="Operational checkpoint details"></label><button class="md:col-span-3 rounded-xl bg-emerald-400 text-emerald-950 font-black py-3">Write Module {{ active_module }} Event</button></form></section>
+{% endif %}
+
+<section class="panel rounded-3xl overflow-hidden"><div class="p-5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3"><div><h2 class="font-black text-lg">Consolidated Enterprise Table Ledger</h2><p class="text-xs text-slate-500 mt-1">Tenant-scoped production records. Delete removes the selected row immediately from SQLite.</p></div><span class="text-xs text-slate-500">{{ order_count }} records</span></div><div class="overflow-x-auto"><table class="w-full text-left text-xs min-w-[1180px]"><thead class="bg-slate-950/80 text-slate-500 uppercase tracking-wider"><tr><th class="px-5 py-4">Batch</th><th class="px-5 py-4">Buyer</th><th class="px-5 py-4">Fabric</th><th class="px-5 py-4">Qty kg</th><th class="px-5 py-4">DPP Token</th><th class="px-5 py-4">QC</th><th class="px-5 py-4">Warehouse</th><th class="px-5 py-4">BOM Cost</th><th class="px-5 py-4">Status</th><th class="px-5 py-4">Action</th></tr></thead><tbody class="divide-y divide-slate-800">{% for order in orders %}<tr class="hover:bg-slate-900/70"><td class="px-5 py-4"><div class="flex items-center gap-3"><div class="w-11 h-11 rounded-xl overflow-hidden shrink-0 placeholder grid place-items-center">{% if order.image_url %}<img src="{{ order.image_url }}" alt="Fabric batch" class="w-full h-full object-cover">{% else %}<span class="text-[9px] font-black text-emerald-300">{{ order.avatar }}</span>{% endif %}</div><div><div class="font-black">BATCH-{{ order.id }}</div><div class="text-[10px] text-slate-500">Node {{ order.short_hash }}</div></div></div></td><td class="px-5 py-4">{{ order.buyer_name }}</td><td class="px-5 py-4">{{ order.fabric_type }}</td><td class="px-5 py-4">{{ '%.2f'|format(order.quantity_kg) }}</td><td class="px-5 py-4 font-mono text-[10px] text-slate-400">{{ order.dpp_hash[:18] }}…</td><td class="px-5 py-4"><span class="px-2 py-1 rounded-lg bg-slate-800">{{ order.qc_grade }}</span></td><td class="px-5 py-4">{{ order.warehouse_rack or '—' }} / {{ order.warehouse_row or '—' }} / {{ order.warehouse_bin or '—' }}</td><td class="px-5 py-4">${{ '%.2f'|format(order.total_bom_cost) }}</td><td class="px-5 py-4"><span class="px-2 py-1 rounded-lg {{ 'bg-emerald-400/10 text-emerald-300' if order.order_status=='ACTIVE' else 'bg-amber-400/10 text-amber-300' }}">{{ order.order_status }}</span></td><td class="px-5 py-4"><form method="post" action="{{ url_for('routes.delete_order', order_id=order.id) }}" onsubmit="return confirm('Delete Batch #{{ order.id }} permanently from this tenant ledger?');"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 px-3 py-2 font-black hover:bg-red-500/20">❌ Cancel Batch</button></form></td></tr>{% else %}<tr><td colspan="10" class="px-5 py-16 text-center text-slate-600">No production batch nodes exist yet. Create Module 1's first batch above.</td></tr>{% endfor %}</tbody></table></div></section>
+
+<section class="grid xl:grid-cols-2 gap-6"><div class="panel rounded-3xl overflow-hidden"><div class="p-5 border-b border-slate-800"><h2 class="font-black">Module Telemetry Ledger</h2></div><div class="overflow-auto max-h-80 scrollbar"><table class="w-full text-left text-xs"><thead class="text-slate-500"><tr><th class="px-5 py-3">Module</th><th class="px-5 py-3">Reference</th><th class="px-5 py-3">Value</th><th class="px-5 py-3">Time</th><th class="px-5 py-3">Action</th></tr></thead><tbody class="divide-y divide-slate-800">{% for row in module_logs %}<tr><td class="px-5 py-3">M{{ row.module_id }} · {{ row.module_name }}</td><td class="px-5 py-3">{{ row.reference }}</td><td class="px-5 py-3">{{ row.value }}</td><td class="px-5 py-3 text-slate-500">{{ row.created_at }}</td><td class="px-5 py-3"><form method="post" action="{{ url_for('routes.delete_module_log', log_id=row.id) }}" onsubmit="return confirm('Delete this telemetry entry permanently?');"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit" class="rounded-lg bg-red-500/10 border border-red-500/20 text-red-300 px-3 py-2 font-black hover:bg-red-500/20">Delete</button></form></td></tr>{% else %}<tr><td colspan="5" class="px-5 py-8 text-slate-600 text-center">No operational module events yet.</td></tr>{% endfor %}</tbody></table></div></div><div class="panel rounded-3xl p-5"><h2 class="font-black">Execution Notes</h2><div class="mt-4 space-y-3 text-sm text-slate-400"><p>• Module 1 creates a unique SHA-256 DPP token for every batch.</p><p>• Module 7 controls QC grade and order status.</p><p>• Module 10 persists warehouse rack, row and bin coordinates.</p><p>• Module 13 persists CBAM telemetry against the selected order.</p><p>• Modules 2–6 and 8–9, 11–12 and 14–20 write tenant-scoped operational events.</p><p>• Missing images render as geometric ET/FAB Node placeholders, so the ledger never has broken image gaps.</p></div></div></section>
+</div></main></div>
+<script>
+const csrf={{ csrf_token()|tojson }};
+document.getElementById('themeBtn').addEventListener('click',()=>{document.documentElement.classList.toggle('brightness-125');localStorage.setItem('etTheme',document.documentElement.classList.contains('brightness-125')?'lightish':'dark')});
+if(localStorage.getItem('etTheme')==='lightish')document.documentElement.classList.add('brightness-125');
+const scanBtn=document.getElementById('scanBtn');
+const scanInput=document.getElementById('scanInput');
+const scanResult=document.getElementById('scanResult');
+const cameraBtn=document.getElementById('cameraBtn');
+const stopCameraBtn=document.getElementById('stopCameraBtn');
+const cameraPreview=document.getElementById('cameraPreview');
+const scannerPlaceholder=document.getElementById('scannerPlaceholder');
+const scanLine=document.getElementById('scanLine');
+const cameraStatus=document.getElementById('cameraStatus');
+const cameraCaptureInput=document.getElementById('cameraCaptureInput');
+function camMsg(t){cameraStatus.textContent=t;cameraStatus.classList.remove('text-slate-500');cameraStatus.classList.add('text-amber-300','text-xs');}
+window.addEventListener('error',e=>{try{camMsg('JS error: '+e.message);}catch(_){}});
+window.addEventListener('unhandledrejection',e=>{try{camMsg('Error: '+((e.reason&&e.reason.message)||e.reason));}catch(_){}});
+cameraStatus.textContent='Scanner v3 ready. '+(window.isSecureContext?'HTTPS OK.':'HTTP detected: live camera blocked by browser, use Take Photo button.');
+let cameraStream=null; let detector=null; let scanning=false; let zxingReader=null; let zxingControls=null;
+async function lookupScan(code){
+  code=(code||'').trim();
+  if(!code){scanResult.textContent='Enter or scan a Batch ID / DPP token.';return;}
+  scanResult.textContent='Looking up product…';
+  try{
+    const r=await fetch('{{ url_for("routes.api_scan") }}',{method:'POST',headers:{'Content-Type':'application/json','X-CSRF-Token':csrf},body:JSON.stringify({code})});
+    const data=await r.json();
+    if(!data.ok){scanResult.textContent=data.message;return;}
+    const p=data.product;
+    scanResult.innerHTML='<div class="rounded-2xl bg-emerald-400/10 border border-emerald-400/20 p-4"><div class="font-black text-emerald-300">BATCH-'+p.id+'</div><div class="mt-2 text-xs text-slate-300">Buyer: '+p.buyer_name+'</div><div class="text-xs text-slate-300">Fabric: '+p.fabric_type+'</div><div class="text-xs text-slate-300">Quantity: '+p.quantity_kg+' kg</div><div class="text-xs text-slate-300">QC: '+p.qc_grade+'</div><div class="text-xs text-slate-300">Status: '+p.order_status+'</div><div class="text-xs text-slate-500 mt-2 break-all">DPP: '+p.dpp_hash+'</div></div>';
+  }catch(e){scanResult.textContent='Scanner request failed.';}
+}
+scanBtn?.addEventListener('click',()=>lookupScan(scanInput.value));
+scanInput?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();lookupScan(scanInput.value);}});
+document.getElementById('scannerFocusBtn')?.addEventListener('click',()=>{scanInput.focus();scanInput.select();cameraStatus.textContent='External scanner ready. Scan the label now; the scanner should enter the code and press Enter.';});
+function stopCamera(){scanning=false;try{zxingControls?.stop();}catch(e){}zxingControls=null;try{zxingReader?.reset();}catch(e){}zxingReader=null;if(cameraStream){cameraStream.getTracks().forEach(t=>t.stop());cameraStream=null;}cameraPreview.srcObject=null;cameraPreview.src='';cameraPreview.classList.add('hidden');scannerPlaceholder.classList.remove('hidden');scanLine.classList.add('hidden');stopCameraBtn.classList.add('hidden');cameraBtn.classList.remove('hidden');}
+function showCameraFallback(){
+  camMsg('Opening phone camera… take a clear photo of the QR/barcode. If nothing opens, tap the blue Take Photo button.');
+  try{cameraCaptureInput?.click();}catch(e){}
+}
+async function handleCapturedImage(file){
+  if(!file)return;
+  const url=URL.createObjectURL(file);
+  cameraPreview.src=url;cameraPreview.classList.remove('hidden');scannerPlaceholder.classList.add('hidden');scanLine.classList.remove('hidden');
+  cameraStatus.textContent='Photo captured. Checking the code…';
+  try{
+    if('BarcodeDetector' in window){
+      if(!detector){try{detector=new BarcodeDetector({formats:['qr_code','code_128','code_39','ean_13','ean_8','upc_a','upc_e']});}catch(e){try{detector=new BarcodeDetector();}catch(e2){detector=null;}}}
+      const codes=await detector.detect(cameraPreview);
+      if(codes?.length && codes[0].rawValue){scanInput.value=codes[0].rawValue;await lookupScan(codes[0].rawValue);cameraStatus.textContent='Code detected successfully.';return;}
+    }
+    cameraStatus.textContent='Camera photo ready. If the code was not detected automatically, enter the Batch ID / DPP token below.';
+  }catch(e){cameraStatus.textContent='Photo captured. Enter the Batch ID / DPP token below if needed.';}
+}
+cameraCaptureInput?.addEventListener('change',e=>{handleCapturedImage(e.target.files?.[0]);e.target.value='';});
+async function loadZXing(){
+  if(window.ZXingBrowser)return true;
+  if(window.__zxingLoading)return window.__zxingLoading;
+  window.__zxingLoading=new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src="{{ url_for('static', filename='vendor/zxing-browser.min.js') }}";
+    script.onload=()=>resolve(!!window.ZXingBrowser);
+    script.onerror=reject;
+    document.head.appendChild(script);
+  });
+  try{return await window.__zxingLoading;}catch(e){return false;}
+}
+async function startZXingCamera(){
+  const ready=await loadZXing();
+  if(!ready){showCameraFallback();return;}
+  try{
+    cameraPreview.classList.remove('hidden');scannerPlaceholder.classList.add('hidden');scanLine.classList.remove('hidden');stopCameraBtn.classList.remove('hidden');cameraBtn.classList.add('hidden');
+    cameraStatus.textContent='Scanner ready. Center the QR/barcode inside the green frame.';
+    zxingReader=new ZXingBrowser.BrowserMultiFormatReader();
+    scanning=true;
+    zxingControls=await zxingReader.decodeFromVideoDevice(undefined,cameraPreview,(result,error)=>{
+      if(result){const value=result.getText?.() || result.text;if(value){scanInput.value=value;cameraStatus.textContent='Code detected. Loading batch…';lookupScan(value).finally(()=>stopCamera());}}
+    });
+  }catch(e){stopCamera();cameraStatus.textContent=cameraErrorText(e);if(e&&(e.name==='NotReadableError'||e.name==='OverconstrainedError'||e.name==='NotFoundError'))showCameraFallback();}
+}
+function cameraErrorText(e){
+  const n=e&&e.name;
+  if(n==='NotAllowedError'||n==='SecurityError')return 'Camera permission blocked. Tap the lock/site-settings icon in the browser address bar, allow Camera, then try again.';
+  if(n==='NotFoundError')return 'No camera found on this device.';
+  if(n==='NotReadableError')return 'Camera is busy in another app/tab. Close it and try again.';
+  return 'Camera could not open ('+(n||'unknown error')+').';
+}
+async function startCamera(){
+  camMsg('Starting camera…');
+  if(!window.isSecureContext){cameraStatus.textContent='Live camera needs HTTPS. Opening the phone camera photo mode instead (or open this site via https://).';showCameraFallback();return;}
+  if(!navigator.mediaDevices?.getUserMedia){showCameraFallback();return;}
+  try{
+    if('BarcodeDetector' in window){
+      try{detector=new BarcodeDetector({formats:['qr_code','code_128','code_39','ean_13','ean_8','upc_a','upc_e']});}catch(e){try{detector=new BarcodeDetector();}catch(e2){detector=null;}}
+    }
+    if(!detector){await startZXingCamera();return;}
+    cameraStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}},audio:false});
+    cameraPreview.srcObject=cameraStream;await cameraPreview.play();
+    cameraPreview.classList.remove('hidden');scannerPlaceholder.classList.add('hidden');scanLine.classList.remove('hidden');stopCameraBtn.classList.remove('hidden');cameraBtn.classList.add('hidden');
+    cameraStatus.textContent='Scanner ready. Center the QR/barcode inside the green frame.';
+    scanning=true;scanFrame();
+  }catch(e){stopCamera();cameraStatus.textContent=cameraErrorText(e);if(e&&(e.name==='NotReadableError'||e.name==='OverconstrainedError'||e.name==='NotFoundError'))showCameraFallback();}
+}
+async function scanFrame(){
+  if(!scanning || !detector)return;
+  try{const codes=await detector.detect(cameraPreview);if(codes?.length){const value=codes[0].rawValue;if(value){scanInput.value=value;await lookupScan(value);stopCamera();return;}}}catch(e){}
+  requestAnimationFrame(scanFrame);
+}
+cameraBtn?.addEventListener('click',startCamera);stopCameraBtn?.addEventListener('click',stopCamera);
+window.addEventListener('pagehide',stopCamera);
+const mobileMenuBtn=document.getElementById('mobileMenuBtn'),mobileSidebar=document.getElementById('mobileSidebar'),mobileOverlay=document.getElementById('mobileOverlay');
+function closeMobileNav(){mobileSidebar?.classList.add('hidden');mobileOverlay?.classList.add('hidden');}
+mobileMenuBtn?.addEventListener('click',()=>{mobileSidebar?.classList.remove('hidden');mobileOverlay?.classList.remove('hidden');});
+mobileOverlay?.addEventListener('click',closeMobileNav);
+mobileSidebar?.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeMobileNav));
+</script>
+</body></html>
