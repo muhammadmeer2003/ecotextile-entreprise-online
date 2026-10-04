@@ -105,7 +105,7 @@ async function loadZXing(){
   if(window.__zxingLoading)return window.__zxingLoading;
   window.__zxingLoading=new Promise((resolve,reject)=>{
     const script=document.createElement('script');
-    script.src='https://unpkg.com/@zxing/browser@0.1.5/umd/index.min.js';
+    script.src="{{ url_for('static', filename='vendor/zxing-browser.min.js') }}";
     script.onload=()=>resolve(!!window.ZXingBrowser);
     script.onerror=reject;
     document.head.appendChild(script);
@@ -114,7 +114,7 @@ async function loadZXing(){
 }
 async function startZXingCamera(){
   const ready=await loadZXing();
-  if(!ready){cameraStatus.textContent='Automatic scanner is unavailable in this browser. Use the input below or a USB/Bluetooth scanner.';return;}
+  if(!ready){showCameraFallback();return;}
   try{
     cameraPreview.classList.remove('hidden');scannerPlaceholder.classList.add('hidden');scanLine.classList.remove('hidden');stopCameraBtn.classList.remove('hidden');cameraBtn.classList.add('hidden');
     cameraStatus.textContent='Scanner ready. Center the QR/barcode inside the green frame.';
@@ -123,9 +123,17 @@ async function startZXingCamera(){
     zxingControls=await zxingReader.decodeFromVideoDevice(undefined,cameraPreview,(result,error)=>{
       if(result){const value=result.getText?.() || result.text;if(value){scanInput.value=value;cameraStatus.textContent='Code detected. Loading batch…';lookupScan(value).finally(()=>stopCamera());}}
     });
-  }catch(e){cameraStatus.textContent='Scanner could not start. Allow camera access and try again.';stopCamera();}
+  }catch(e){stopCamera();cameraStatus.textContent=cameraErrorText(e);if(e&&(e.name==='NotReadableError'||e.name==='OverconstrainedError'||e.name==='NotFoundError'))showCameraFallback();}
+}
+function cameraErrorText(e){
+  const n=e&&e.name;
+  if(n==='NotAllowedError'||n==='SecurityError')return 'Camera permission blocked. Tap the lock/site-settings icon in the browser address bar, allow Camera, then try again.';
+  if(n==='NotFoundError')return 'No camera found on this device.';
+  if(n==='NotReadableError')return 'Camera is busy in another app/tab. Close it and try again.';
+  return 'Camera could not open ('+(n||'unknown error')+').';
 }
 async function startCamera(){
+  if(!window.isSecureContext){cameraStatus.textContent='Live camera needs HTTPS. Opening the phone camera photo mode instead (or open this site via https://).';showCameraFallback();return;}
   if(!navigator.mediaDevices?.getUserMedia){showCameraFallback();return;}
   try{
     if('BarcodeDetector' in window){
@@ -137,7 +145,7 @@ async function startCamera(){
     cameraPreview.classList.remove('hidden');scannerPlaceholder.classList.add('hidden');scanLine.classList.remove('hidden');stopCameraBtn.classList.remove('hidden');cameraBtn.classList.add('hidden');
     cameraStatus.textContent='Scanner ready. Center the QR/barcode inside the green frame.';
     scanning=true;scanFrame();
-  }catch(e){cameraStatus.textContent='Camera could not open. Allow camera permission and try again.';}
+  }catch(e){stopCamera();cameraStatus.textContent=cameraErrorText(e);if(e&&(e.name==='NotReadableError'||e.name==='OverconstrainedError'||e.name==='NotFoundError'))showCameraFallback();}
 }
 async function scanFrame(){
   if(!scanning || !detector)return;

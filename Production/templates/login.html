@@ -26,8 +26,8 @@
       {% with messages=get_flashed_messages(with_categories=true) %}{% if messages %}<div class="space-y-2 mb-5">{% for category,message in messages %}<div class="rounded-xl px-4 py-3 text-sm {{ 'bg-red-500/10 text-red-300 border border-red-500/20' if category=='error' else 'bg-emerald-500/10 text-emerald-300 border border-emerald-500/20' }}">{{ message }}</div>{% endfor %}</div>{% endif %}{% endwith %}
       <form method="post" action="{{ url_for('routes.login') }}" class="space-y-5">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <label class="block"><span class="text-sm text-slate-300">Work email</span><input name="email" type="email" autocomplete="username" required class="mt-2 w-full rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3.5 outline-none focus:border-emerald-400" placeholder="operations@company.com"></label>
-        <label class="block"><span class="text-sm text-slate-300">Private key</span><div class="relative mt-2"><input id="password" name="password" type="password" autocomplete="current-password" required class="w-full rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3.5 pr-16 outline-none focus:border-emerald-400" placeholder="••••••••"><button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">SHOW</button></div><div id="capsWarning" class="hidden mt-2 text-xs text-amber-300">Caps Lock appears to be enabled.</div></label>
+        <label class="block"><span class="text-sm text-slate-300">Work email</span><input name="email" type="email" autocomplete="username" autocapitalize="off" autocorrect="off" spellcheck="false" inputmode="email" required class="mt-2 w-full rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3.5 outline-none focus:border-emerald-400" placeholder="operations@company.com"></label>
+        <label class="block"><span class="text-sm text-slate-300">Private key</span><div class="relative mt-2"><input id="password" name="password" type="password" autocomplete="current-password" autocapitalize="off" autocorrect="off" spellcheck="false" required class="w-full rounded-2xl bg-slate-900 border border-slate-800 px-4 py-3.5 pr-16 outline-none focus:border-emerald-400" placeholder="••••••••"><button type="button" id="togglePassword" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400">SHOW</button></div><div id="capsWarning" class="hidden mt-2 text-xs text-amber-300">Caps Lock appears to be enabled.</div></label>
         <button id="loginButton" class="w-full rounded-2xl bg-emerald-400 hover:bg-emerald-300 text-emerald-950 font-black py-3.5 transition flex items-center justify-center gap-2"><span id="buttonText">Enter Enterprise Hub</span><span id="spinner" class="hidden w-4 h-4 border-2 border-emerald-950/30 border-t-emerald-950 rounded-full animate-spin"></span></button>
       </form>
       <div class="mt-4 grid grid-cols-2 gap-2">
@@ -42,7 +42,9 @@
 const password=document.getElementById('password'), toggle=document.getElementById('togglePassword'), caps=document.getElementById('capsWarning');
 toggle.addEventListener('click',()=>{password.type=password.type==='password'?'text':'password';toggle.textContent=password.type==='password'?'SHOW':'HIDE'});
 password.addEventListener('keyup',e=>{caps.classList.toggle('hidden',!e.getModifierState('CapsLock'))});
-document.querySelector('form').addEventListener('submit',()=>{document.getElementById('loginButton').disabled=true;document.getElementById('spinner').classList.remove('hidden');document.getElementById('buttonText').textContent='Authenticating…'});
+function resetLoginBtn(){document.getElementById('loginButton').disabled=false;document.getElementById('spinner').classList.add('hidden');document.getElementById('buttonText').textContent='Enter Enterprise Hub'}
+window.addEventListener('pageshow',resetLoginBtn);
+document.querySelector('form').addEventListener('submit',()=>{setTimeout(()=>{document.getElementById('loginButton').disabled=true;},0);document.getElementById('spinner').classList.remove('hidden');document.getElementById('buttonText').textContent='Authenticating…'});
 </script>
 </body>
 </html>
